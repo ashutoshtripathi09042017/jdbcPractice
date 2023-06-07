@@ -1,1 +1,53 @@
+package JDBC_Connection;
+import java.sql.*;
 
+public class firstConnection {
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/jdbcpractice";
+		String username = "root";
+		String password = "Ashu@2228";
+        
+		
+		try {
+//	1. Load Driver class
+	      Class.forName("com.mysql.cj.jdbc.Driver");
+//	2. Get the connection
+	      Connection connection = DriverManager.getConnection(url,username,password);
+//	3. Get the Statement
+	      Statement statement = connection.createStatement();
+//	4. Get object of ResultSet (Retrieve(select Query)). There are three methods.
+	      
+//	      i => boolean execute(String SQL) : Returns a boolean value of true if a ResultSet object can be retrieved; otherwise, it returns false.	      
+	      boolean boolexe = statement.execute("insert into entity values(003,'Harsh','white')");
+	      if (boolexe == true) {
+	    	  System.out.println("executed successfully");
+	      }
+	      
+	      
+//	      i => int executeUpdate(String SQL): Returns the number of rows affected by the execution of the SQL statement. Use this method to execute SQL statements, for which you expect to get a number of rows affected - for example, an INSERT, UPDATE, or DELETE statement.
+	      int query = statement.executeUpdate("insert into entity values(002,'Avinash','Blue')");
+	      if (query==1) {
+	    	  System.out.println("Query executed Successfully");
+	      }
+	      
+//	      ii => executeQuery : Returns one ResultSet object.
+	      ResultSet resultSet = statement.executeQuery("select * from entity");//A ResultSet is a Java object that contains the results of executing an SQL query.
+	      while(resultSet.next()) {
+	    	  System.out.println(resultSet.getString("id"));
+	    	  System.out.println(resultSet.getString("name"));
+	    	  System.out.println(resultSet.getString("color"));
+	      }
+	      
+//	5. Close the Connection
+	      connection.close();
+	      
+		}
+		
+		catch( Exception e) {
+			System.out.println(e);
+			e.printStackTrace(); //The printStackTrace() method in Java is a tool used to handle exceptions and errors. It is a method of Java's throwable class which prints the throwable along with other details like the line number and class name where the exception occurred.
+
+	        
+		}
+	}
+}
